@@ -1,0 +1,190 @@
+/* Share Target Plugin Styles */
+
+/*
+ * The field sits between two NcCheckboxRadioSwitch rows in the share
+ * settings, so it copies the sizes of the Nextcloud form controls.
+ */
+oca_files_set_target-share-target {
+    display: block;
+    padding: 4px;
+}
+
+.set-target-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.set-target-label {
+    color: var(--color-main-text);
+}
+
+.set-target-input {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: var(--default-clickable-area, 34px);
+    margin: 0;
+    padding: 0 12px;
+    border: 2px solid var(--color-border-maxcontrast);
+    border-radius: var(--border-radius-element, var(--border-radius-large));
+    background-color: var(--color-main-background);
+    color: var(--color-main-text);
+    font-size: inherit;
+    text-overflow: ellipsis;
+}
+
+.set-target-input:hover {
+    border-color: var(--color-primary-element);
+}
+
+.set-target-input:focus {
+    border-color: var(--color-main-text);
+    outline: none;
+}
+
+.set-target-input[aria-invalid="true"] {
+    border-color: var(--color-error);
+}
+
+.set-target-note {
+    margin: 0;
+    font-size: 0.85em;
+    line-height: 1.3;
+    color: var(--color-text-maxcontrast);
+}
+
+.set-target-error {
+    font-size: 0.85em;
+    line-height: 1.3;
+    color: var(--color-error);
+}
+
+/* No error, no line: the empty span must not hold space. */
+.set-target-error:empty {
+    display: none;
+}
+
+/* Admin settings */
+.set-target-admin {
+    max-width: 640px;
+    padding: 20px 0;
+}
+
+.set-target-section {
+    margin-bottom: 28px;
+    padding: 16px;
+    background: var(--color-background-hover);
+    border-radius: var(--border-radius-large);
+    border: 1px solid var(--color-border);
+}
+
+.set-target-section h3 {
+    font-size: 1em;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+}
+
+.set-target-description {
+    font-size: 0.85em;
+    color: var(--color-text-maxcontrast);
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+}
+
+.set-target-checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.set-target-status {
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    font-size: 0.9em;
+    margin-bottom: 12px;
+}
+
+.set-target-status--success {
+    background: var(--color-success-light, #d4edda);
+    color: var(--color-success, #155724);
+    border: 1px solid var(--color-success, #c3e6cb);
+}
+
+.set-target-status--error {
+    background: var(--color-error-light, #f8d7da);
+    color: var(--color-error, #721c24);
+    border: 1px solid var(--color-error, #f5c6cb);
+}
+
+.set-target-radio-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+}
+
+.set-target-selected {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 12px;
+    padding-inline-start: 24px;
+}
+
+.set-target-selected[hidden] {
+    display: none;
+}
+
+.set-target-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1 1 260px;
+}
+
+.set-target-picker label {
+    font-weight: bold;
+}
+
+.set-target-chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    min-height: 24px;
+    align-items: center;
+}
+
+.set-target-chips__empty {
+    color: var(--color-text-maxcontrast);
+}
+
+.set-target-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 4px 2px 10px;
+    border-radius: var(--border-radius-pill, 100px);
+    background-color: var(--color-background-dark);
+}
+
+.set-target-chip__remove {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 6px;
+    color: var(--color-text-maxcontrast);
+}
+
+.set-target-chip__remove:hover,
+.set-target-chip__remove:focus-visible {
+    color: var(--color-main-text);
+}
+
+.set-target-search {
+    width: 100%;
+}

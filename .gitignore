@@ -1,0 +1,9 @@
+node_modules/
+vendor/
+/js/
+.phpunit.cache/
+.nc-test/
+memory/
+.deploy.env
+.php-cs-fixer.cache
+build/

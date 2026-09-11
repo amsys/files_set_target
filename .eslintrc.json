@@ -1,0 +1,16 @@
+{
+	"root": true,
+	"extends": ["@nextcloud"],
+	"plugins": ["sonarjs"],
+	"env": {
+		"browser": true,
+		"es2022": true
+	},
+	"parserOptions": {
+		"ecmaVersion": 2022,
+		"sourceType": "module"
+	},
+	"rules": {
+		"sonarjs/cognitive-complexity": ["error", 15]
+	}
+}

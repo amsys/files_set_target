@@ -1,0 +1,84 @@
+# Standalone unit tests. The app mocks OCP, so these need no Nextcloud server
+# and no database — that is why this is a local workflow and not one of the
+# nextcloud/.github phpunit-*.yml templates, which all provision a server.
+#
+# SPDX-FileCopyrightText: Martin <dev@amsys.cz>
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+name: PHPUnit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: phpunit-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      php-min: ${{ steps.versions.outputs.php-min }}
+      php-max: ${{ steps.versions.outputs.php-max }}
+    steps:
+      - name: Checkout app
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Get version matrix
+        id: versions
+        uses: nextcloud-libraries/nextcloud-version-matrix@cd0211ffcef1065e2020cd579e4843b8746e7a58 # v1.3.3
+
+  phpunit:
+    runs-on: ubuntu-latest
+    needs: matrix
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['${{ needs.matrix.outputs.php-min }}', '${{ needs.matrix.outputs.php-max }}']
+
+    name: phpunit php${{ matrix.php-versions }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up php ${{ matrix.php-versions }}
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ctype, dom, fileinfo, iconv, json, libxml, mbstring, simplexml, xmlreader, xmlwriter, zip
+          coverage: none
+          ini-file: development
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@65e4f84970763564f46a70b8a54b90d033b3bdda # 4.0.0
+
+      # composer test runs the whole suite, the cognitive complexity gate
+      # (limit 15, tests/Unit/CognitiveComplexityTest.php) included.
+      - name: PHPUnit
+        run: composer run test
+
+  summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: phpunit
+
+    if: always()
+
+    name: phpunit-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.phpunit.result != 'success' && needs.phpunit.result != 'skipped' }}; then exit 1; fi
